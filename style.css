@@ -76,15 +76,14 @@ body {
 }
 @media (max-width: 768px) {
     .grid-container {
-        display: block;
+        display: grid; /* Restore grid for vertical time slots */
         overflow-x: auto;
-        white-space: nowrap;
+        white-space: normal;
     }
     .grid-item {
-        display: inline-block;
         min-width: 120px;
         white-space: normal;
-        vertical-align: top;
+        display: block;
     }
     .time-slot,
     .tijd-header {
