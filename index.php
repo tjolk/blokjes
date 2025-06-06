@@ -85,11 +85,9 @@ function generateBlokjesContent($data) {
                         foreach ($podiumActs[$podium] as $actIdx => $act) {
                             if ($act['subcol'] === $subcol && $act['start'] === $currentTime && empty($act['rendered'])) {
                                 $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
-                                // Calculate overlap width and position
-                                $overlapCount = $subcols;
-                                $widthPercent = 100 / $overlapCount;
-                                $leftPercent = $subcol * $widthPercent;
-                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan; grid-column: auto; position: relative; z-index: 2; width: $widthPercent%; left: $leftPercent%; margin-left: 0; margin-right: 0; box-sizing: border-box; display: inline-block;'>" . htmlspecialchars($act['title']) . "</div>";
+                                // Overlapping/stacked style: use absolute positioning and z-index for stacking
+                                $z = 10 + $subcol;
+                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan; grid-column: auto; position: absolute; left: 0; right: 0; width: 100%; margin-left: 0; margin-right: 0; box-sizing: border-box; z-index: $z; top: 0; opacity: 0.95; transform: translateY(" . ($subcol * 10) . "px); pointer-events: auto;'>" . htmlspecialchars($act['title']) . "</div>";
                                 $podiumActs[$podium][$actIdx]['rendered'] = true;
                                 $found = true;
                                 break;
