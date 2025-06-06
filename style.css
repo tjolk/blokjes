@@ -1,0 +1,53 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 100px repeat(3, 1fr);
+    gap: 2px;
+    border: 1px solid white;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+.grid-item {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid white;
+}
+.active-slot {
+    background-color: white;
+    color: black;
+}
+.time-slot {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Mobiele weergave */
+@media (max-width: 768px) {
+    .grid-container {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .grid-item {
+        display: inline-block;
+        min-width: 120px;
+        white-space: normal;
+        vertical-align: top;
+    }
+    .time-slot {
+        display: block;
+        font-weight: bold;
+        background-color: #222;
+        color: #fff;
+        padding: 5px;
+    }
+    h1, h2 {
+        text-align: center;
+    }
+}
