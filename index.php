@@ -23,20 +23,34 @@ function generateBlokjesContent($data) {
                 foreach ($podiums as $podium) {
                     $slotContent = "";
                     $isActive = false;
+                    $mergeStart = false;
+                    $mergeEnd = false;
+                    $mergeRowspan = 1;
                     if (isset($podia[$podium])) {
                         foreach ($podia[$podium] as $optreden) {
                             preg_match('/\b(\d{1,2}:\d{2})\b.*?-\s*(\d{1,2}:\d{2})\b/', $optreden, $matches);
                             $startTime = isset($matches[1]) ? strtotime($matches[1]) : null;
                             $endTime = isset($matches[2]) ? strtotime($matches[2]) : null;
                             $currentTime = strtotime($timeLabel);
-                            if ($startTime && $endTime && $currentTime >= $startTime && $currentTime < $endTime) {
+                            if ($startTime && $endTime && $currentTime == $startTime) {
                                 $isActive = true;
+                                $mergeStart = true;
+                                $mergeRowspan = ($endTime - $startTime) / ($timeInterval * 60);
                                 $slotContent = "<div>$optreden</div>";
+                            } elseif ($startTime && $endTime && $currentTime > $startTime && $currentTime < $endTime) {
+                                $mergeEnd = true;
                             }
                         }
                     }
-                    $class = $isActive ? "grid-item active-slot" : "grid-item";
-                    $output .= "<div class='$class'>$slotContent</div>";
+                    // Alleen de eerste cel van een optreden tonen, de rest overslaan
+                    if ($mergeStart) {
+                        $output .= "<div class='grid-item active-slot' style='grid-row: span $mergeRowspan;'>$slotContent</div>";
+                    } elseif ($mergeEnd) {
+                        // Sla deze cel over, want deze wordt gemerged
+                        $output .= "<!-- merged slot -->";
+                    } else {
+                        $output .= "<div class='grid-item'></div>";
+                    }
                 }
             }
         }
