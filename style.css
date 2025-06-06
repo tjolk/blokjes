@@ -78,7 +78,7 @@ body {
     position: sticky;
     left: 0;
     background: black;
-    z-index: 1;
+    z-index: 1000;
 }
 .sticky-header, .tijd-header{
     position: sticky;
