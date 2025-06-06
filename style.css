@@ -53,6 +53,29 @@ body {
     background: #111;
 }
 
+.sticky-tijd {
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 30;
+    background: #111;
+}
+
+/* Ensure time column cells below header also stick */
+.grid-item.time-slot:not(.tijd-header) {
+    position: sticky;
+    left: 0;
+    z-index: 15;
+    background: #111;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: #111;
+}
+
 @media (max-width: 768px) {
     .grid-container {
         display: block;

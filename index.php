@@ -63,11 +63,11 @@ function generateBlokjesContent($data) {
         }
         $output .= "<div class='grid-container cols-$totalCols' style='display:grid;grid-template-columns:" . implode(' ', $gridCols) . ";'>";
         // Header row
-        $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>Tijd</div>";
+        $output .= "<div class='grid-item time-slot tijd-header sticky-tijd' style='grid-column: 1 / 2;'>Tijd</div>";
         $colStart = 2;
         foreach ($podiums as $podium) {
             $colspan = $maxSubcolumns[$podium] ?: 1;
-            $output .= "<div class='grid-item' style='grid-column: $colStart / " . ($colStart + $colspan) . "; text-align:center;'><strong>$podium</strong></div>";
+            $output .= "<div class='grid-item sticky-header' style='grid-column: $colStart / " . ($colStart + $colspan) . "; text-align:center;'><strong>$podium</strong></div>";
             $colStart += $colspan;
         }
         // Time slots
