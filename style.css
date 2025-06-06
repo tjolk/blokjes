@@ -38,7 +38,17 @@ body {
     text-align: center;
     padding-bottom: 2px;
 }
-.time-slot,
+.time-slot {
+    min-width: 60px;
+    max-width: 80px;
+    width: 100%;
+    font-size: 13px;
+    padding: 0 4px;
+    background: black;
+    font-weight: bold;
+    text-align: center;
+    z-index: 500;
+}
 .tijd-header {
     min-width: 60px;
     max-width: 80px;
@@ -76,7 +86,7 @@ body {
     position: sticky;
     left: 0;
     background: black;
-    z-index: 1000;
+    z-index: 500;
 }
 .sticky-header {
     position: sticky;
@@ -103,7 +113,14 @@ body {
         white-space: normal;
         display: block;
     }
-    .time-slot,
+    .time-slot {
+        min-width: 40px;
+        max-width: 60px;
+        font-size: 11px;
+        padding: 0 2px;
+        background: black;
+        z-index: 500 !important;
+    }
     .tijd-header {
         min-width: 40px;
         max-width: 60px;
@@ -116,7 +133,7 @@ body {
         z-index: 1000;
     }
     .grid-item.time-slot:not(.tijd-header) {
-        z-index: 1000;
+        z-index: 500;
     }
     .sticky-tijd {
         z-index: 999;
