@@ -56,7 +56,7 @@ body {
     left: 0;
     top: 0;
     background: black;
-    z-index: 2;
+    z-index: 999;
 }
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
@@ -64,11 +64,11 @@ body {
     background: black;
     z-index: 1;
 }
-.sticky-header {
+.sticky-header, .tijd-header{
     position: sticky;
     top: 0;
     background: black;
-    z-index: 1;
+    z-index: 1000;
 }
 .current-time-slot {
     background: yellow !important;
