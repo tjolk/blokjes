@@ -17,9 +17,7 @@ function generateBlokjesContent($data) {
         foreach ($podiums as $podium) {
             $acts = [];
             foreach ($podia[$podium] as $optreden) {
-                // Ignore Riccardo Marogna acts
-                if (stripos($optreden, 'Riccardo Marogna') !== false) continue;
-                // Parse time
+                // Parse time (do not skip Riccardo Marogna)
                 if (preg_match('/(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})/', $optreden, $matches)) {
                     $start = strtotime($matches[1]);
                     $end = strtotime($matches[2]);
