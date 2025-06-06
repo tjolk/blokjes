@@ -78,11 +78,14 @@ body {
     background: black;
     z-index: 1000;
 }
-.sticky-header, .tijd-header{
+.sticky-header {
     position: sticky;
     top: 0;
     background: black;
     z-index: 1000;
+}
+.tijd-header {
+    z-index: 2000 !important;
 }
 .current-time-slot {
     background: yellow !important;
@@ -107,9 +110,9 @@ body {
         font-size: 11px;
         padding: 0 2px;
         background: black;
-        z-index: 1000;
+        z-index: 2000 !important;
     }
-    .sticky-header, .tijd-header {
+    .sticky-header {
         z-index: 1000;
     }
     .grid-item.time-slot:not(.tijd-header) {
