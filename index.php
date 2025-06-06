@@ -52,7 +52,7 @@ function generateBlokjesContent($data) {
             $maxSubcolumns[$podium] = count($columns);
         }
         // Build grid-template-columns
-        $gridCols = ['100px'];
+        $gridCols = ['50px']; // Make the time column smaller
         $totalCols = 1;
         foreach ($podiums as $podium) {
             $colCount = $maxSubcolumns[$podium] ?: 1;

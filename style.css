@@ -8,7 +8,6 @@ body {
     /* grid-template-columns is set inline by PHP */
     gap: 0;
     border: 1px solid white;
-    /* padding: 10px;*/ 
     margin-bottom: 40px;
     overflow: auto;
     max-height: 80vh; /* Added max-height for sticky header */
