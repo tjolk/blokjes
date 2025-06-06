@@ -4,56 +4,110 @@ $json = file_get_contents("cache.json");
 $data = json_decode($json, true);
 
 function generateBlokjesContent($data) {
-    $startHour = 10; // Begin van de dag
-    $endHour = 22; // Eindtijd
-    $timeInterval = 5; // 5 minuten per blok
+    $startHour = 10;
+    $endHour = 22;
+    $timeInterval = 5;
     $output = "";
     foreach ($data as $dag => $podia) {
         $output .= "<h2>$dag</h2>";
         $podiums = array_keys($podia);
-        $output .= "<div class='grid-container'>";
+        // Preprocess: for each podium, build a list of acts with start/end and assign subcolumns
+        $podiumActs = [];
+        $maxSubcolumns = [];
+        foreach ($podiums as $podium) {
+            $acts = [];
+            foreach ($podia[$podium] as $optreden) {
+                // Ignore Riccardo Marogna acts
+                if (stripos($optreden, 'Riccardo Marogna') !== false) continue;
+                // Parse time
+                if (preg_match('/(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})/', $optreden, $matches)) {
+                    $start = strtotime($matches[1]);
+                    $end = strtotime($matches[2]);
+                    $acts[] = [
+                        'title' => $optreden,
+                        'start' => $start,
+                        'end' => $end,
+                        'assigned' => false,
+                        'subcol' => null
+                    ];
+                }
+            }
+            // Assign subcolumns for overlaps
+            $columns = [];
+            foreach ($acts as $i => &$act) {
+                for ($col = 0; ; $col++) {
+                    $overlap = false;
+                    foreach ($columns[$col] ?? [] as $other) {
+                        if (!($act['end'] <= $other['start'] || $act['start'] >= $other['end'])) {
+                            $overlap = true;
+                            break;
+                        }
+                    }
+                    if (!$overlap) {
+                        $act['subcol'] = $col;
+                        $columns[$col][] = $act;
+                        break;
+                    }
+                }
+            }
+            unset($act);
+            $podiumActs[$podium] = $acts;
+            $maxSubcolumns[$podium] = count($columns);
+        }
+        // Calculate total grid columns
+        $totalCols = 1; // time
+        foreach ($podiums as $podium) {
+            $totalCols += $maxSubcolumns[$podium] ?: 1;
+        }
+        // Build grid-template-columns style
+        $gridCols = ['100px'];
+        foreach ($podiums as $podium) {
+            for ($i = 0; $i < ($maxSubcolumns[$podium] ?: 1); $i++) {
+                $gridCols[] = '1fr';
+            }
+        }
+        $output .= "<div class='grid-container' style='display:grid;grid-template-columns:" . implode(' ', $gridCols) . ";'>";
+        // Header row
         $output .= "<div class='grid-item time-slot'>Tijd / Podium</div>";
         foreach ($podiums as $podium) {
-            $output .= "<div class='grid-item'><strong>$podium</strong></div>";
+            $colspan = $maxSubcolumns[$podium] ?: 1;
+            $output .= "<div class='grid-item' style='grid-column: span $colspan; text-align:center;'><strong>$podium</strong></div>";
         }
+        // Time slots
         for ($hour = $startHour; $hour <= $endHour; $hour++) {
             for ($minute = 0; $minute < 60; $minute += $timeInterval) {
                 $timeLabel = sprintf("%02d:%02d", $hour, $minute);
+                $currentTime = strtotime($timeLabel);
+                $rowIdx = (($hour - $startHour) * 60 + $minute) / $timeInterval + 2; // +2 for header rows
                 $output .= "<div class='grid-item time-slot'>$timeLabel</div>";
                 foreach ($podiums as $podium) {
-                    $slotContent = "";
-                    $isActive = false;
-                    $mergeStart = false;
-                    $mergeEnd = false;
-                    $mergeRowspan = 1;
-                    if (isset($podia[$podium])) {
-                        foreach ($podia[$podium] as $optreden) {
-                            // Ignore Riccardo Marogna acts
-                            if (stripos($optreden, 'Riccardo Marogna') !== false) {
-                                continue;
-                            }
-                            preg_match('/\b(\d{1,2}:\d{2})\b.*?-\s*(\d{1,2}:\d{2})\b/', $optreden, $matches);
-                            $startTime = isset($matches[1]) ? strtotime($matches[1]) : null;
-                            $endTime = isset($matches[2]) ? strtotime($matches[2]) : null;
-                            $currentTime = strtotime($timeLabel);
-                            if ($startTime && $endTime && $currentTime == $startTime) {
-                                $isActive = true;
-                                $mergeStart = true;
-                                $mergeRowspan = ($endTime - $startTime) / ($timeInterval * 60);
-                                $slotContent = "<div>$optreden</div>";
-                            } elseif ($startTime && $endTime && $currentTime > $startTime && $currentTime < $endTime) {
-                                $mergeEnd = true;
+                    $subcols = $maxSubcolumns[$podium] ?: 1;
+                    // For each subcolumn
+                    for ($subcol = 0; $subcol < $subcols; $subcol++) {
+                        // Find act that starts at this time in this subcol
+                        $found = false;
+                        foreach ($podiumActs[$podium] as $actIdx => $act) {
+                            if ($act['subcol'] === $subcol && $act['start'] === $currentTime && empty($act['rendered'])) {
+                                $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
+                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan; grid-column: auto;'>" . htmlspecialchars($act['title']) . "</div>";
+                                $podiumActs[$podium][$actIdx]['rendered'] = true;
+                                $found = true;
+                                break;
                             }
                         }
-                    }
-                    // Alleen de eerste cel van een optreden tonen, de rest overslaan
-                    if ($mergeStart) {
-                        $output .= "<div class='grid-item active-slot' style='grid-row: span $mergeRowspan;'>$slotContent</div>";
-                    } elseif ($mergeEnd) {
-                        // Sla deze cel over, want deze wordt gemerged
-                        $output .= "<!-- merged slot -->";
-                    } else {
-                        $output .= "<div class='grid-item'></div>";
+                        // If not found, check if this slot is covered by a spanning act (skip cell)
+                        if (!$found) {
+                            $covered = false;
+                            foreach ($podiumActs[$podium] as $act) {
+                                if ($act['subcol'] === $subcol && $act['start'] < $currentTime && $act['end'] > $currentTime) {
+                                    $covered = true;
+                                    break;
+                                }
+                            }
+                            if (!$covered) {
+                                $output .= "<div class='grid-item'></div>";
+                            }
+                        }
                     }
                 }
             }
