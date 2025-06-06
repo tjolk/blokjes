@@ -45,8 +45,21 @@ function generateBlokjesContent($data) {
     return $output;
 }
 
-// Inject dynamic content into the HTML template
-$html = file_get_contents('index.html');
-$dynamicContent = generateBlokjesContent($data);
-$html = str_replace('<!-- Hier komt de dynamische inhoud van index.php -->', $dynamicContent, $html);
-echo $html;
+?><!DOCTYPE html>
+<html lang='nl'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Blokkenschema Kaderock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Blokkenschema Kaderock</h1>
+
+<?php
+echo generateBlokjesContent($data);
+?>
+
+</body>
+</html>
