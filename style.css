@@ -10,7 +10,8 @@ body {
     border: 1px solid white;
     padding: 10px;
     margin-bottom: 40px;
-    overflow-x: auto;
+    overflow: auto;
+    max-height: 80vh; /* Added max-height for sticky header */
 }
 .grid-item {
     background-color: black;
@@ -48,7 +49,7 @@ body {
 .cols-10 > .grid-item:nth-child(-n+10) {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 20; /* Increased z-index for sticky headers */
     background: #111;
 }
 
