@@ -67,12 +67,19 @@ function generateBlokjesContent($data) {
             $maxSubcolumns[$podium] = count($columns);
         }
         // Build grid-template-columns
-        $gridCols = ['50px'];
-        $totalCols = 1;
+        $gridCols = ['3fr', '3fr']; // First two columns: 3fr each
+        $totalCols = 2;
         foreach ($podiums as $podium) {
             $colCount = $maxSubcolumns[$podium] ?: 1;
-            $totalCols += $colCount;
-            $gridCols = array_merge($gridCols, array_fill(0, $colCount, '1fr'));
+            for ($i = 0; $i < $colCount; $i++) {
+                // For the first two columns, we've already added 3fr above
+                if ($totalCols < 2) {
+                    $totalCols++;
+                    continue;
+                }
+                $gridCols[] = '2fr';
+                $totalCols++;
+            }
         }
         $output .= "<div class='grid-container cols-$totalCols' style='grid-template-columns:" . implode(' ', $gridCols) . ";'>";
         // Header row
