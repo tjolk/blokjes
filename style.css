@@ -28,9 +28,12 @@ body {
 }
 .grid-item.time-slot,
 .tijd-header {
-    min-width: 80px;
-    max-width: 120px;
+    min-width: 60px;
+    max-width: 80px;
     width: 100%;
+    font-size: 13px;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 
 /* Mobiele weergave */
@@ -60,7 +63,7 @@ body {
     .tijd-header {
         min-width: 40px;
         max-width: 60px;
-        font-size: 12px;
+        font-size: 11px;
         padding-left: 2px;
         padding-right: 2px;
     }
