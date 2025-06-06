@@ -11,6 +11,22 @@ function generateBlokjesContent($data) {
     foreach ($data as $dag => $podia) {
         $output .= "<h2>$dag</h2>";
         $podiums = array_keys($podia);
+        // Determine if this is the current day
+        $isToday = false;
+        // Try to extract a date from the day string (e.g., 'Vrijdag 6 juni 17:00 - 23:00')
+        if (preg_match('/(\d{1,2})\s*(juni|juli|augustus|september|oktober|november|december)/iu', $dag, $matches)) {
+            $dayNum = $matches[1];
+            $monthStr = strtolower($matches[2]);
+            $monthMap = [
+                'januari' => 1, 'februari' => 2, 'maart' => 3, 'april' => 4, 'mei' => 5, 'juni' => 6, 'juli' => 7,
+                'augustus' => 8, 'september' => 9, 'oktober' => 10, 'november' => 11, 'december' => 12
+            ];
+            $month = $monthMap[$monthStr] ?? null;
+            $year = (int)date('Y');
+            if ($month && checkdate($month, $dayNum, $year)) {
+                $isToday = (date('n') == $month && date('j') == $dayNum);
+            }
+        }
         // Preprocess: for each podium, build a list of acts with start/end and assign subcolumns
         $podiumActs = [];
         $maxSubcolumns = [];
@@ -76,9 +92,12 @@ function generateBlokjesContent($data) {
             for ($minute = 0; $minute < 60; $minute += $timeInterval) {
                 $timeLabel = sprintf("%02d:%02d", $hour, $minute);
                 $currentTime = strtotime($timeLabel);
-                // Highlight current time slot
+                // Highlight current time slot only if this is today
                 $now = time();
-                $isCurrentSlot = ($currentTime <= $now && $now < $currentTime + $timeInterval * 60 && date('Y-m-d', $currentTime) === date('Y-m-d'));
+                $isCurrentSlot = false;
+                if ($isToday && $currentTime <= $now && $now < $currentTime + $timeInterval * 60 && date('Y-m-d', $currentTime) === date('Y-m-d')) {
+                    $isCurrentSlot = true;
+                }
                 $timeSlotClass = 'grid-item time-slot';
                 if ($isCurrentSlot) {
                     $timeSlotClass .= ' current-time-slot';
