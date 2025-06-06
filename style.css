@@ -13,7 +13,6 @@ body {
     max-height: 80vh; /* Added max-height for sticky header */
 }
 .grid-item {
-    background-color: black;
     color: white;
     text-align: center;
     padding: 10px;
@@ -48,27 +47,23 @@ body {
 .cols-10 > .grid-item:nth-child(-n+10) {
     position: sticky;
     top: 0;
-    background: #111;
 }
 
 .sticky-tijd {
     position: sticky;
     left: 0;
     top: 0;
-    background: #111;
 }
 
 /* Ensure time column cells below header also stick */
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
-    background: #111;
 }
 
 .sticky-header {
     position: sticky;
     top: 0;
-    background: #111;
 }
 
 /* Add box-shadow to header row for visual separation */
@@ -105,7 +100,6 @@ body {
     .time-slot {
         display: block;
         font-weight: bold;
-        background-color: #222;
         color: #fff;
         padding: 5px;
     }
