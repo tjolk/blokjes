@@ -58,12 +58,12 @@ body {
     background-color: black;
 }
 
-/* Ensure time column cells below header also stick */
+/* Ensure time column cells below header also stick 
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
     background-color: black;
-}
+}*/
 
 .sticky-header {
     position: sticky;
