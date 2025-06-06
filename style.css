@@ -22,6 +22,7 @@ body {
 .active-slot {
     background: white;
     color: black;
+    border: 1px solid black;
 }
 .time-slot,
 .tijd-header {
