@@ -71,9 +71,9 @@ function generateBlokjesContent($data) {
         $totalCols = 1;
         foreach ($podiums as $podium) {
             $colCount = $maxSubcolumns[$podium] ?: 1;
-            $width = (strtolower($podium) === 'de broeikast') ? '0.7fr' : '1fr';
+            $isBroeikast = (strtolower(trim($podium)) === 'de broeikast');
             for ($i = 0; $i < $colCount; $i++) {
-                $gridCols[] = $width;
+                $gridCols[] = $isBroeikast ? '0.7fr' : '1fr';
             }
             $totalCols += $colCount;
         }
