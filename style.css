@@ -57,7 +57,7 @@ body {
     position: sticky;
     left: 0;
     top: 0;
-    z-index: 10000 !important; /* Max z-index for time header */
+    z-index: 30000 !important; /* Highest z-index for tijdheader */
     background: #111;
 }
 
@@ -65,19 +65,19 @@ body {
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
-    z-index: 20000 !important; /* Even higher than before, just below .sticky-tijd */
+    z-index: 20000 !important; /* Next highest for time-slot */
     background: #111;
 }
 
 .sticky-header {
     position: sticky;
     top: 0;
-    z-index: 9999 !important;
+    z-index: 10000 !important; /* Below time-slot, above grid items */
     background: #111;
 }
 
 .grid-item:not(.tijd-header):not(.sticky-header) {
-    z-index: -1 !important;
+    z-index: -1 !important; /* Lowest for acts/other grid items */
 }
 
 /* Add box-shadow to header row for visual separation */
