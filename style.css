@@ -26,6 +26,12 @@ body {
     font-weight: bold;
     text-align: center;
 }
+.grid-item.time-slot,
+.tijd-header {
+    min-width: 80px;
+    max-width: 120px;
+    width: 100%;
+}
 
 /* Mobiele weergave */
 @media (max-width: 768px) {
@@ -49,5 +55,13 @@ body {
     }
     h1, h2 {
         text-align: center;
+    }
+    .grid-item.time-slot,
+    .tijd-header {
+        min-width: 40px;
+        max-width: 60px;
+        font-size: 12px;
+        padding-left: 2px;
+        padding-right: 2px;
     }
 }
