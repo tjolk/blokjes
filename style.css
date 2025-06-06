@@ -6,7 +6,7 @@ body {
 .grid-container {
     display: grid;
     /* grid-template-columns is set inline by PHP */
-    gap: 2px;
+    gap: 0;
     border: 1px solid white;
     /* padding: 10px;*/ 
     margin-bottom: 40px;
