@@ -101,7 +101,7 @@ function generateBlokjesContent($data) {
                                 // Remove time and trailing spaces/tabs from act title for display
                                 $actName = preg_replace('/\s*\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}.*/', '', $act['title']);
                                 $actName = rtrim($actName);
-                                $rowspan = (($act['end'] - $act['start']) / ($timeInterval * 60)) - 1;
+                                $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
                                 if ($rowspan < 1) $rowspan = 1;
                                 $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan;'><span>" . htmlspecialchars($actName) . "</span></div>";
                                 $podiumActs[$podium][$actIdx]['rendered'] = true;
