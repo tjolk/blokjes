@@ -32,7 +32,7 @@ body {
 }
 .active-slot span {
     position: sticky;
-    top: 32px; /* Height of the sticky header row, adjust as needed */
+    top: 40px; /* Height of the sticky header row, adjust as needed */
     width: 100%;
     background: white;
     z-index: 1100; /* Higher than header z-index */
