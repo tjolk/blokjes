@@ -76,24 +76,25 @@ function generateBlokjesContent($data) {
             for ($minute = 0; $minute < 60; $minute += $timeInterval) {
                 $timeLabel = sprintf("%02d:%02d", $hour, $minute);
                 $currentTime = strtotime($timeLabel);
-                $rowIdx = (($hour - $startHour) * 60 + $minute) / $timeInterval + 2; // +2 for header rows
                 $output .= "<div class='grid-item time-slot'>$timeLabel</div>";
                 foreach ($podiums as $podium) {
                     $subcols = $maxSubcolumns[$podium] ?: 1;
                     // For each subcolumn
                     for ($subcol = 0; $subcol < $subcols; $subcol++) {
-                        // Find act that starts at this time in this subcol
                         $found = false;
                         foreach ($podiumActs[$podium] as $actIdx => $act) {
                             if ($act['subcol'] === $subcol && $act['start'] === $currentTime && empty($act['rendered'])) {
                                 $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
-                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan; grid-column: auto;'>" . htmlspecialchars($act['title']) . "</div>";
+                                // Calculate overlap width and position
+                                $overlapCount = $subcols;
+                                $widthPercent = 100 / $overlapCount;
+                                $leftPercent = $subcol * $widthPercent;
+                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan; grid-column: auto; position: relative; z-index: 2; width: $widthPercent%; left: $leftPercent%; margin-left: 0; margin-right: 0; box-sizing: border-box; display: inline-block;'>" . htmlspecialchars($act['title']) . "</div>";
                                 $podiumActs[$podium][$actIdx]['rendered'] = true;
                                 $found = true;
                                 break;
                             }
                         }
-                        // If not found, check if this slot is covered by a spanning act (skip cell)
                         if (!$found) {
                             $covered = false;
                             foreach ($podiumActs[$podium] as $act) {
@@ -103,7 +104,7 @@ function generateBlokjesContent($data) {
                                 }
                             }
                             if (!$covered) {
-                                $output .= "<div class='grid-item'></div>";
+                                $output .= "<div class='grid-item' style='position:relative;'></div>";
                             }
                         }
                     }
