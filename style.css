@@ -64,7 +64,6 @@ body {
     top: 0;
     background: black;
     box-shadow: 0 2px 6px 0 rgba(0,0,0,0.5);
-    z-index: 1000;
 }
 .sticky-tijd {
     position: sticky;
@@ -128,6 +127,5 @@ body {
     .cols-8 > .grid-item:nth-child(-n+8),
     .cols-9 > .grid-item:nth-child(-n+9),
     .cols-10 > .grid-item:nth-child(-n+10) {
-        z-index: 1000;
     }
 }
