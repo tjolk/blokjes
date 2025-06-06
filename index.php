@@ -98,10 +98,11 @@ function generateBlokjesContent($data) {
                         $found = false;
                         foreach ($podiumActs[$podium] as $actIdx => $act) {
                             if ($act['subcol'] === $subcol && $act['start'] === $currentTime && !$act['rendered']) {
-                                // Shorten the act by 5 minutes (one slot)
+                                // Remove time from act title for display
+                                $actName = preg_replace('/\s*\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}.*/', '', $act['title']);
                                 $rowspan = (($act['end'] - $act['start']) / ($timeInterval * 60)) - 1;
-                                if ($rowspan < 1) $rowspan = 1; // Ensure at least 1 slot is shown
-                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan;'><span>" . htmlspecialchars($act['title']) . "</span></div>";
+                                if ($rowspan < 1) $rowspan = 1;
+                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan;'><span>" . htmlspecialchars($actName) . "</span></div>";
                                 $podiumActs[$podium][$actIdx]['rendered'] = true;
                                 $found = true;
                                 break;
