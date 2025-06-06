@@ -35,6 +35,18 @@ body {
     padding-left: 4px;
     padding-right: 4px;
 }
+.grid-item.time-slot.tijd-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #111;
+}
+.grid-container > .grid-item:not(.tijd-header):nth-child(-n+100) {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    background: #111;
+}
 
 /* Mobiele weergave */
 @media (max-width: 768px) {
