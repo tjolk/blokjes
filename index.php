@@ -129,4 +129,27 @@ echo generateBlokjesContent($data);
 ?>
 
 </body>
+<script>
+// Scroll to the current time slot on page load
+window.addEventListener('DOMContentLoaded', function() {
+    function pad(n) { return n < 10 ? '0' + n : n; }
+    const now = new Date();
+    const hour = pad(now.getHours());
+    const minute = pad(Math.floor(now.getMinutes() / 5) * 5); // round down to nearest 5
+    const selector = `.grid-item.time-slot`;
+    const slots = document.querySelectorAll(selector);
+    let found = false;
+    for (let slot of slots) {
+        if (slot.textContent.trim() === `${hour}:${minute}`) {
+            slot.scrollIntoView({behavior: 'smooth', block: 'center'});
+            found = true;
+            break;
+        }
+    }
+    // If not found, scroll to first slot
+    if (!found && slots.length > 0) {
+        slots[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+});
+</script>
 </html>
