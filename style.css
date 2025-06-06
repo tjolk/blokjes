@@ -35,7 +35,7 @@ body {
     top: 40px; /* Height of the sticky header row, adjust as needed */
     width: 100%;
     background: white;
-    z-index: 1100; /* Higher than header z-index */
+    z-index: 900; /* Higher than header z-index */
     text-align: center;
     padding-bottom: 2px;
 }
