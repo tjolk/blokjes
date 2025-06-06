@@ -18,7 +18,6 @@ body {
     text-align: center;
     padding: 10px;
     border: 0px solid white;
-    z-index: 1; /* Prevent grid items from overlapping sticky headers */
 }
 .active-slot {
     background-color: white;
@@ -49,7 +48,6 @@ body {
 .cols-10 > .grid-item:nth-child(-n+10) {
     position: sticky;
     top: 0;
-    z-index: 9999 !important; /* Max z-index for header row */
     background: #111;
 }
 
@@ -57,7 +55,6 @@ body {
     position: sticky;
     left: 0;
     top: 0;
-    z-index: 30000 !important; /* Highest z-index for tijdheader */
     background: #111;
 }
 
@@ -65,19 +62,13 @@ body {
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
-    z-index: 20000 !important; /* Next highest for time-slot */
     background: #111;
 }
 
 .sticky-header {
     position: sticky;
     top: 0;
-    z-index: 10000 !important; /* Below time-slot, above grid items */
     background: #111;
-}
-
-.grid-item:not(.tijd-header):not(.sticky-header) {
-    z-index: -1 !important; /* Lowest for acts/other grid items */
 }
 
 /* Add box-shadow to header row for visual separation */
@@ -97,7 +88,6 @@ body {
     background: yellow !important;
     color: black !important;
     font-weight: bold;
-    z-index: 50;
 }
 
 @media (max-width: 768px) {
