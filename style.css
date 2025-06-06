@@ -35,7 +35,6 @@ body {
     width: 100%;
     background: white;
     text-align: center;
-    padding-bottom: 2px;
 }
 .time-slot {
     min-width: 60px;
@@ -108,7 +107,7 @@ body {
         white-space: normal;
     }
     .grid-item {
-        min-width: 120px;
+        min-width: 100px;
         white-space: normal;
         display: block;
     }
