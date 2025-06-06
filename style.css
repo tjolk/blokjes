@@ -34,6 +34,7 @@ body {
     font-size: 13px;
     padding-left: 4px;
     padding-right: 4px;
+    background-color: black;
 }
 /* Sticky header row for all header cells in the first row, up to 10 columns */
 .cols-2 > .grid-item:nth-child(-n+2),
@@ -47,23 +48,27 @@ body {
 .cols-10 > .grid-item:nth-child(-n+10) {
     position: sticky;
     top: 0;
+    background-color: black;
 }
 
 .sticky-tijd {
     position: sticky;
     left: 0;
     top: 0;
+    background-color: black;
 }
 
 /* Ensure time column cells below header also stick */
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
+    background-color: black;
 }
 
 .sticky-header {
     position: sticky;
     top: 0;
+    background-color: black;
 }
 
 /* Add box-shadow to header row for visual separation */
