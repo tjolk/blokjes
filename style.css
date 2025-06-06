@@ -77,7 +77,7 @@ body {
 }
 
 .grid-item:not(.tijd-header):not(.sticky-header) {
-    z-index: 1 !important;
+    z-index: -1 !important;
 }
 
 /* Add box-shadow to header row for visual separation */
