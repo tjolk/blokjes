@@ -17,8 +17,7 @@ body {
     color: white;
     text-align: center;
     padding: 10px;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
+    border: 0px solid white;
 }
 .active-slot {
     background-color: white;
