@@ -10,12 +10,14 @@ body {
     margin-bottom: 40px;
     overflow: auto;
     max-height: 80vh;
+    background: transparent;
 }
 .grid-item {
     color: white;
     text-align: center;
     padding: 10px;
     border: 0;
+    background: transparent;
 }
 .active-slot {
     background: white;
@@ -46,22 +48,26 @@ body {
     top: 0;
     background: black;
     box-shadow: 0 2px 6px 0 rgba(0,0,0,0.5);
+    z-index: 1;
 }
 .sticky-tijd {
     position: sticky;
     left: 0;
     top: 0;
     background: black;
+    z-index: 2;
 }
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
     background: black;
+    z-index: 1;
 }
 .sticky-header {
     position: sticky;
     top: 0;
     background: black;
+    z-index: 1;
 }
 .current-time-slot {
     background: yellow !important;
