@@ -33,6 +33,7 @@ body {
     background: black;
     font-weight: bold;
     text-align: center;
+    z-index: 1000;
 }
 /* Sticky header row for all header cells in the first row, up to 10 columns */
 .cols-2 > .grid-item:nth-child(-n+2),
