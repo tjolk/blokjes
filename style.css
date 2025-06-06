@@ -25,9 +25,19 @@ body {
     border: 1px solid black;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     height: 100%;
+    position: relative;
+}
+.active-slot span {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: white;
+    z-index: 2;
+    text-align: center;
+    padding-bottom: 2px;
 }
 .time-slot,
 .tijd-header {
