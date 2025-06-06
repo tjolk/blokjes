@@ -17,7 +17,6 @@ function generateBlokjesContent($data) {
         foreach ($podiums as $podium) {
             $acts = [];
             foreach ($podia[$podium] as $optreden) {
-                // Parse time (do not skip Riccardo Marogna)
                 if (preg_match('/(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})/', $optreden, $matches)) {
                     $start = strtotime($matches[1]);
                     $end = strtotime($matches[2]);
@@ -25,8 +24,8 @@ function generateBlokjesContent($data) {
                         'title' => $optreden,
                         'start' => $start,
                         'end' => $end,
-                        'assigned' => false,
-                        'subcol' => null
+                        'subcol' => null,
+                        'rendered' => false
                     ];
                 }
             }
@@ -52,12 +51,7 @@ function generateBlokjesContent($data) {
             $podiumActs[$podium] = $acts;
             $maxSubcolumns[$podium] = count($columns);
         }
-        // Calculate total grid columns
-        $totalCols = 1; // time
-        foreach ($podiums as $podium) {
-            $totalCols += $maxSubcolumns[$podium] ?: 1;
-        }
-        // Build grid-template-columns style
+        // Build grid-template-columns
         $gridCols = ['100px'];
         foreach ($podiums as $podium) {
             for ($i = 0; $i < ($maxSubcolumns[$podium] ?: 1); $i++) {
@@ -74,25 +68,41 @@ function generateBlokjesContent($data) {
             $colStart += $colspan;
         }
         // Time slots
+        $rowCount = (($endHour - $startHour + 1) * (60 / $timeInterval));
         for ($hour = $startHour; $hour <= $endHour; $hour++) {
             for ($minute = 0; $minute < 60; $minute += $timeInterval) {
                 $timeLabel = sprintf("%02d:%02d", $hour, $minute);
                 $currentTime = strtotime($timeLabel);
                 $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>$timeLabel</div>";
+                // For each podium
                 foreach ($podiums as $podium) {
                     $subcols = $maxSubcolumns[$podium] ?: 1;
-                    $found = false;
-                    foreach ($podiumActs[$podium] as $actIdx => $act) {
-                        if ($act['subcol'] !== null && $act['start'] === $currentTime && empty($act['rendered'])) {
-                            $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
-                            $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan;'>" . htmlspecialchars($act['title']) . "</div>";
-                            $podiumActs[$podium][$actIdx]['rendered'] = true;
-                            $found = true;
-                            break;
+                    for ($subcol = 0; $subcol < $subcols; $subcol++) {
+                        // Only render act if it starts at this time in this subcol
+                        $found = false;
+                        foreach ($podiumActs[$podium] as $actIdx => $act) {
+                            if ($act['subcol'] === $subcol && $act['start'] === $currentTime && !$act['rendered']) {
+                                $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
+                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan;'>" . htmlspecialchars($act['title']) . "</div>";
+                                $podiumActs[$podium][$actIdx]['rendered'] = true;
+                                $found = true;
+                                break;
+                            }
                         }
-                    }
-                    if (!$found) {
-                        $output .= "<div class='grid-item'></div>";
+                        // Fill empty cell if no act starts here and not covered by a rowspan
+                        if (!$found) {
+                            // Check if a previous act is spanning this cell
+                            $spanned = false;
+                            foreach ($podiumActs[$podium] as $act) {
+                                if ($act['subcol'] === $subcol && $act['start'] < $currentTime && $act['end'] > $currentTime) {
+                                    $spanned = true;
+                                    break;
+                                }
+                            }
+                            if (!$spanned) {
+                                $output .= "<div class='grid-item'></div>";
+                            }
+                        }
                     }
                 }
             }
