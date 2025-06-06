@@ -76,10 +76,9 @@ function generateBlokjesContent($data) {
             for ($minute = 0; $minute < 60; $minute += $timeInterval) {
                 $timeLabel = sprintf("%02d:%02d", $hour, $minute);
                 $currentTime = strtotime($timeLabel);
-                $isCurrentSlot = false;
-                if (date('H:i') === $timeLabel && date('Y-m-d') === date('Y-m-d')) {
-                    $isCurrentSlot = true;
-                }
+                // Highlight current time slot
+                $now = time();
+                $isCurrentSlot = ($currentTime <= $now && $now < $currentTime + $timeInterval * 60 && date('Y-m-d', $currentTime) === date('Y-m-d'));
                 $timeSlotClass = 'grid-item time-slot';
                 if ($isCurrentSlot) {
                     $timeSlotClass .= ' current-time-slot';
