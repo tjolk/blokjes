@@ -36,7 +36,7 @@ body {
     background: white;
     text-align: center;
 }
-.time-slot {
+.time-slot, .tijd-header {
     min-width: 60px;
     max-width: 80px;
     width: 100%;
@@ -45,18 +45,9 @@ body {
     background: black;
     font-weight: bold;
     text-align: center;
-    z-index: 500;
 }
 .tijd-header {
-    min-width: 60px;
-    max-width: 80px;
-    width: 100%;
-    font-size: 13px;
-    padding: 0 4px;
-    background: black;
-    font-weight: bold;
-    text-align: center;
-    z-index: 1000;
+    z-index: 2000 !important;
 }
 /* Sticky header row for all header cells in the first row, up to 10 columns */
 .cols-2 > .grid-item:nth-child(-n+2),
@@ -92,9 +83,6 @@ body {
     background: black;
     z-index: 1000;
 }
-.tijd-header {
-    z-index: 2000 !important;
-}
 .current-time-slot {
     background: yellow !important;
     color: black !important;
@@ -102,7 +90,6 @@ body {
 }
 @media (max-width: 768px) {
     .grid-container {
-        display: grid; /* Restore grid for vertical time slots */
         overflow-x: auto;
         white-space: normal;
     }
@@ -111,20 +98,14 @@ body {
         white-space: normal;
         display: block;
     }
-    .time-slot {
+    .time-slot, .tijd-header {
         min-width: 40px;
         max-width: 60px;
         font-size: 11px;
         padding: 0 2px;
         background: black;
-        z-index: 500 !important;
     }
     .tijd-header {
-        min-width: 40px;
-        max-width: 60px;
-        font-size: 11px;
-        padding: 0 2px;
-        background: black;
         z-index: 2000 !important;
     }
     .sticky-header {
@@ -135,15 +116,5 @@ body {
     }
     .sticky-tijd {
         z-index: 999;
-    }
-    .cols-2 > .grid-item:nth-child(-n+2),
-    .cols-3 > .grid-item:nth-child(-n+3),
-    .cols-4 > .grid-item:nth-child(-n+4),
-    .cols-5 > .grid-item:nth-child(-n+5),
-    .cols-6 > .grid-item:nth-child(-n+6),
-    .cols-7 > .grid-item:nth-child(-n+7),
-    .cols-8 > .grid-item:nth-child(-n+8),
-    .cols-9 > .grid-item:nth-child(-n+9),
-    .cols-10 > .grid-item:nth-child(-n+10) {
     }
 }
