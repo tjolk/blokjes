@@ -3,106 +3,130 @@
 $json = file_get_contents("cache.json");
 $data = json_decode($json, true);
 
-echo "<!DOCTYPE html>
+function generateBlokjesContent($data) {
+    $startHour = 10;
+    $endHour = 22;
+    $timeInterval = 5;
+    $output = "";
+    foreach ($data as $dag => $podia) {
+        $output .= "<h2>$dag</h2>";
+        $podiums = array_keys($podia);
+        // Preprocess: for each podium, build a list of acts with start/end and assign subcolumns
+        $podiumActs = [];
+        $maxSubcolumns = [];
+        foreach ($podiums as $podium) {
+            $acts = [];
+            foreach ($podia[$podium] as $optreden) {
+                if (preg_match('/(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})/', $optreden, $matches)) {
+                    $start = strtotime($matches[1]);
+                    $end = strtotime($matches[2]);
+                    $acts[] = [
+                        'title' => $optreden,
+                        'start' => $start,
+                        'end' => $end,
+                        'subcol' => null,
+                        'rendered' => false
+                    ];
+                }
+            }
+            // Assign subcolumns for overlaps
+            $columns = [];
+            foreach ($acts as $i => &$act) {
+                for ($col = 0; ; $col++) {
+                    $overlap = false;
+                    foreach ($columns[$col] ?? [] as $other) {
+                        if (!($act['end'] <= $other['start'] || $act['start'] >= $other['end'])) {
+                            $overlap = true;
+                            break;
+                        }
+                    }
+                    if (!$overlap) {
+                        $act['subcol'] = $col;
+                        $columns[$col][] = $act;
+                        break;
+                    }
+                }
+            }
+            unset($act);
+            $podiumActs[$podium] = $acts;
+            $maxSubcolumns[$podium] = count($columns);
+        }
+        // Build grid-template-columns
+        $gridCols = ['100px'];
+        foreach ($podiums as $podium) {
+            for ($i = 0; $i < ($maxSubcolumns[$podium] ?: 1); $i++) {
+                $gridCols[] = '1fr';
+            }
+        }
+        $output .= "<div class='grid-container' style='display:grid;grid-template-columns:" . implode(' ', $gridCols) . ";'>";
+        // Header row
+        $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>Tijd / Podium</div>";
+        $colStart = 2;
+        foreach ($podiums as $podium) {
+            $colspan = $maxSubcolumns[$podium] ?: 1;
+            $output .= "<div class='grid-item' style='grid-column: $colStart / " . ($colStart + $colspan) . "; text-align:center;'><strong>$podium</strong></div>";
+            $colStart += $colspan;
+        }
+        // Time slots
+        $rowCount = (($endHour - $startHour + 1) * (60 / $timeInterval));
+        for ($hour = $startHour; $hour <= $endHour; $hour++) {
+            for ($minute = 0; $minute < 60; $minute += $timeInterval) {
+                $timeLabel = sprintf("%02d:%02d", $hour, $minute);
+                $currentTime = strtotime($timeLabel);
+                $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>$timeLabel</div>";
+                // For each podium
+                foreach ($podiums as $podium) {
+                    $subcols = $maxSubcolumns[$podium] ?: 1;
+                    for ($subcol = 0; $subcol < $subcols; $subcol++) {
+                        // Only render act if it starts at this time in this subcol
+                        $found = false;
+                        foreach ($podiumActs[$podium] as $actIdx => $act) {
+                            if ($act['subcol'] === $subcol && $act['start'] === $currentTime && !$act['rendered']) {
+                                $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
+                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan;'>" . htmlspecialchars($act['title']) . "</div>";
+                                $podiumActs[$podium][$actIdx]['rendered'] = true;
+                                $found = true;
+                                break;
+                            }
+                        }
+                        // Fill empty cell if no act starts here and not covered by a rowspan
+                        if (!$found) {
+                            // Check if a previous act is spanning this cell
+                            $spanned = false;
+                            foreach ($podiumActs[$podium] as $act) {
+                                if ($act['subcol'] === $subcol && $act['start'] < $currentTime && $act['end'] > $currentTime) {
+                                    $spanned = true;
+                                    break;
+                                }
+                            }
+                            if (!$spanned) {
+                                $output .= "<div class='grid-item'></div>";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $output .= "</div><br>";
+    }
+    return $output;
+}
+
+?><!DOCTYPE html>
 <html lang='nl'>
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Blokkenschema Kaderock</title>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: 100px repeat(3, 1fr);
-            gap: 2px;
-            border: 1px solid white;
-            padding: 10px;
-            margin-bottom: 40px;
-        }
-        .grid-item {
-            background-color: black;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid white;
-        }
-        .active-slot {
-            background-color: white;
-            color: black;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid black;
-            font-weight: bold;
-            grid-row: span var(--span, 1);
-        }
-        .time-slot {
-            font-weight: bold;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Blokkenschema Kaderock</h1>";
+<h1>Blokkenschema Kaderock</h1>
 
-$startHour = 10; // Begin van de dag
-$endHour = 22; // Eindtijd
-$timeInterval = 5; // 5 minuten per blok
-
-foreach ($data as $dag => $podia) {
-    echo "<h2>$dag</h2>";
-    
-    // Haal de 3 podiums op
-    $podiums = array_keys($podia);
-
-    echo "<div class='grid-container'>";
-    echo "<div class='grid-item time-slot'>Tijd / Podium</div>";
-
-    foreach ($podiums as $podium) {
-        echo "<div class='grid-item'><strong>$podium</strong></div>";
-    }
-
-    for ($hour = $startHour; $hour <= $endHour; $hour++) {
-        for ($minute = 0; $minute < 60; $minute += $timeInterval) {
-            $timeLabel = sprintf("%02d:%02d", $hour, $minute);
-            echo "<div class='grid-item time-slot'>$timeLabel</div>";
-
-            foreach ($podiums as $podium) {
-                $slotContent = "";
-                $isActive = false;
-                $activeArtist = "";
-                $duration = 1;
-
-                if (isset($podia[$podium])) {
-                    foreach ($podia[$podium] as $optreden) {
-                        preg_match('/\b(\d{1,2}:\d{2})\b.*?-\s*(\d{1,2}:\d{2})\b/', $optreden, $matches);
-                        $startTime = isset($matches[1]) ? strtotime($matches[1]) : null;
-                        $endTime = isset($matches[2]) ? strtotime($matches[2]) : null;
-                        $currentTime = strtotime($timeLabel);
-
-                        if ($startTime && $endTime && $currentTime == $startTime) {
-                            $isActive = true;
-                            $activeArtist = $optreden;
-                            $duration = ($endTime - $startTime) / (60 * $timeInterval);
-                        }
-                    }
-                }
-
-                if ($isActive && $activeArtist !== "") {
-                    echo "<div class='active-slot' style='--span: $duration;'>$activeArtist</div>";
-                } else {
-                    echo "<div class='grid-item'></div>";
-                }
-            }
-        }
-    }
-
-    echo "</div><br>";
-}
-
-echo "</body></html>";
+<?php
+echo generateBlokjesContent($data);
 ?>
+
+</body>
+</html>
