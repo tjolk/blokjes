@@ -18,6 +18,7 @@ body {
     text-align: center;
     padding: 10px;
     border: 0px solid white;
+    z-index: 1; /* Prevent grid items from overlapping sticky headers */
 }
 .active-slot {
     background-color: white;
@@ -48,7 +49,7 @@ body {
 .cols-10 > .grid-item:nth-child(-n+10) {
     position: sticky;
     top: 0;
-    z-index: 100; /* Increased z-index for sticky headers to prevent overlap */
+    z-index: 200 !important; /* Force header above all other grid items */
     background: #111;
 }
 
@@ -56,7 +57,7 @@ body {
     position: sticky;
     left: 0;
     top: 0;
-    z-index: 110; /* Increased z-index for sticky time header */
+    z-index: 300 !important; /* Force time header above all */
     background: #111;
 }
 
@@ -64,14 +65,14 @@ body {
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
-    z-index: 90; /* Lower than header, higher than normal */
+    z-index: 150 !important; /* Lower than header, higher than normal */
     background: #111;
 }
 
 .sticky-header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 200 !important;
     background: #111;
 }
 
