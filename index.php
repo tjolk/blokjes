@@ -79,32 +79,22 @@ function generateBlokjesContent($data) {
                 $output .= "<div class='grid-item time-slot'>$timeLabel</div>";
                 foreach ($podiums as $podium) {
                     $subcols = $maxSubcolumns[$podium] ?: 1;
-                    // For each subcolumn
-                    for ($subcol = 0; $subcol < $subcols; $subcol++) {
-                        $found = false;
-                        foreach ($podiumActs[$podium] as $actIdx => $act) {
-                            if ($act['subcol'] === $subcol && $act['start'] === $currentTime && empty($act['rendered'])) {
-                                $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
-                                // Overlapping/stacked style: use absolute positioning and z-index for stacking
-                                $z = 10 + $subcol;
-                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan; grid-column: auto; position: absolute; left: 0; right: 0; width: 100%; margin-left: 0; margin-right: 0; box-sizing: border-box; z-index: $z; top: 0; opacity: 0.95; transform: translateY(" . ($subcol * 10) . "px); pointer-events: auto;'>" . htmlspecialchars($act['title']) . "</div>";
-                                $podiumActs[$podium][$actIdx]['rendered'] = true;
-                                $found = true;
-                                break;
-                            }
+                    $cellActs = [];
+                    foreach ($podiumActs[$podium] as $actIdx => $act) {
+                        if ($act['start'] <= $currentTime && $act['end'] > $currentTime) {
+                            $cellActs[] = $act;
                         }
-                        if (!$found) {
-                            $covered = false;
-                            foreach ($podiumActs[$podium] as $act) {
-                                if ($act['subcol'] === $subcol && $act['start'] < $currentTime && $act['end'] > $currentTime) {
-                                    $covered = true;
-                                    break;
-                                }
-                            }
-                            if (!$covered) {
-                                $output .= "<div class='grid-item' style='position:relative;'></div>";
-                            }
+                    }
+                    if (count($cellActs) === 0) {
+                        $output .= "<div class='grid-item'></div>";
+                    } else {
+                        $output .= "<div class='grid-item' style='position:relative;'>";
+                        $z = 10;
+                        foreach ($cellActs as $i => $act) {
+                            $offset = $i * 10;
+                            $output .= "<div class='active-slot' style='position:absolute; left:0; right:0; width:100%; top:{$offset}px; z-index:" . ($z + $i) . "; opacity:0.97; margin-bottom:2px; box-sizing:border-box;'>" . htmlspecialchars($act['title']) . "</div>";
                         }
+                        $output .= "</div>";
                     }
                 }
             }
