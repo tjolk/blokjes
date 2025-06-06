@@ -53,14 +53,17 @@ function generateBlokjesContent($data) {
         }
         // Build grid-template-columns
         $gridCols = ['100px'];
+        $totalCols = 1;
         foreach ($podiums as $podium) {
-            for ($i = 0; $i < ($maxSubcolumns[$podium] ?: 1); $i++) {
+            $colCount = $maxSubcolumns[$podium] ?: 1;
+            $totalCols += $colCount;
+            for ($i = 0; $i < $colCount; $i++) {
                 $gridCols[] = '1fr';
             }
         }
-        $output .= "<div class='grid-container' style='display:grid;grid-template-columns:" . implode(' ', $gridCols) . ";'>";
+        $output .= "<div class='grid-container cols-$totalCols' style='display:grid;grid-template-columns:" . implode(' ', $gridCols) . ";'>";
         // Header row
-        $output .= "<div class='grid-item time-slot tijd-header' style='grid-column: 1 / 2;'>Tijd</div>";
+        $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>Tijd</div>";
         $colStart = 2;
         foreach ($podiums as $podium) {
             $colspan = $maxSubcolumns[$podium] ?: 1;

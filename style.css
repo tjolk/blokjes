@@ -5,11 +5,12 @@ body {
 }
 .grid-container {
     display: grid;
-    grid-template-columns: 100px repeat(3, 1fr);
+    /* grid-template-columns is set inline by PHP */
     gap: 2px;
     border: 1px solid white;
     padding: 10px;
     margin-bottom: 40px;
+    overflow-x: auto;
 }
 .grid-item {
     background-color: black;
@@ -35,20 +36,28 @@ body {
     padding-left: 4px;
     padding-right: 4px;
 }
-.grid-item.time-slot.tijd-header {
+/* Sticky header row for all header cells in the first row */
+.grid-container > .grid-item:nth-child(n+1):nth-child(-nVAR) {
     position: sticky;
     top: 0;
     z-index: 10;
     background: #111;
 }
-.grid-container > .grid-item:not(.tijd-header):nth-child(-n+100) {
+.cols-2 > .grid-item:nth-child(-n+2),
+.cols-3 > .grid-item:nth-child(-n+3),
+.cols-4 > .grid-item:nth-child(-n+4),
+.cols-5 > .grid-item:nth-child(-n+5),
+.cols-6 > .grid-item:nth-child(-n+6),
+.cols-7 > .grid-item:nth-child(-n+7),
+.cols-8 > .grid-item:nth-child(-n+8),
+.cols-9 > .grid-item:nth-child(-n+9),
+.cols-10 > .grid-item:nth-child(-n+10) {
     position: sticky;
     top: 0;
-    z-index: 9;
+    z-index: 10;
     background: #111;
 }
 
-/* Mobiele weergave */
 @media (max-width: 768px) {
     .grid-container {
         display: block;
