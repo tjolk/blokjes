@@ -28,6 +28,10 @@ function generateBlokjesContent($data) {
                     $mergeRowspan = 1;
                     if (isset($podia[$podium])) {
                         foreach ($podia[$podium] as $optreden) {
+                            // Ignore Riccardo Marogna acts
+                            if (stripos($optreden, 'Riccardo Marogna') !== false) {
+                                continue;
+                            }
                             preg_match('/\b(\d{1,2}:\d{2})\b.*?-\s*(\d{1,2}:\d{2})\b/', $optreden, $matches);
                             $startTime = isset($matches[1]) ? strtotime($matches[1]) : null;
                             $endTime = isset($matches[2]) ? strtotime($matches[2]) : null;
