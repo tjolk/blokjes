@@ -48,7 +48,7 @@ body {
 .cols-10 > .grid-item:nth-child(-n+10) {
     position: sticky;
     top: 0;
-    z-index: 100; /* Increased z-index for sticky headers to prevent overlap */
+    z-index: 20; /* Increased z-index for sticky headers */
     background: #111;
 }
 
@@ -56,7 +56,7 @@ body {
     position: sticky;
     left: 0;
     top: 0;
-    z-index: 110; /* Increased z-index for sticky time header */
+    z-index: 30;
     background: #111;
 }
 
@@ -64,14 +64,14 @@ body {
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
-    z-index: 90; /* Lower than header, higher than normal */
+    z-index: 15;
     background: #111;
 }
 
 .sticky-header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 20;
     background: #111;
 }
 
