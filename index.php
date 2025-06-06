@@ -60,7 +60,7 @@ function generateBlokjesContent($data) {
         }
         $output .= "<div class='grid-container' style='display:grid;grid-template-columns:" . implode(' ', $gridCols) . ";'>";
         // Header row
-        $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>Tijd / Podium</div>";
+        $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>Tijd</div>";
         $colStart = 2;
         foreach ($podiums as $podium) {
             $colspan = $maxSubcolumns[$podium] ?: 1;
