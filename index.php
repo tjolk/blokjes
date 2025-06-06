@@ -76,7 +76,15 @@ function generateBlokjesContent($data) {
             for ($minute = 0; $minute < 60; $minute += $timeInterval) {
                 $timeLabel = sprintf("%02d:%02d", $hour, $minute);
                 $currentTime = strtotime($timeLabel);
-                $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>$timeLabel</div>";
+                $isCurrentSlot = false;
+                if (date('H:i') === $timeLabel && date('Y-m-d') === date('Y-m-d')) {
+                    $isCurrentSlot = true;
+                }
+                $timeSlotClass = 'grid-item time-slot';
+                if ($isCurrentSlot) {
+                    $timeSlotClass .= ' current-time-slot';
+                }
+                $output .= "<div class='$timeSlotClass' style='grid-column: 1 / 2;'>$timeLabel</div>";
                 // For each podium
                 foreach ($podiums as $podium) {
                     $subcols = $maxSubcolumns[$podium] ?: 1;

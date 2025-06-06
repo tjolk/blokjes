@@ -76,6 +76,13 @@ body {
     background: #111;
 }
 
+.current-time-slot {
+    background: yellow !important;
+    color: black !important;
+    font-weight: bold;
+    z-index: 50;
+}
+
 @media (max-width: 768px) {
     .grid-container {
         display: block;
