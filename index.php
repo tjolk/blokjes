@@ -66,17 +66,19 @@ function generateBlokjesContent($data) {
         }
         $output .= "<div class='grid-container' style='display:grid;grid-template-columns:" . implode(' ', $gridCols) . ";'>";
         // Header row
-        $output .= "<div class='grid-item time-slot'>Tijd / Podium</div>";
+        $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>Tijd / Podium</div>";
+        $colStart = 2;
         foreach ($podiums as $podium) {
             $colspan = $maxSubcolumns[$podium] ?: 1;
-            $output .= "<div class='grid-item' style='grid-column: span $colspan; text-align:center;'><strong>$podium</strong></div>";
+            $output .= "<div class='grid-item' style='grid-column: $colStart / " . ($colStart + $colspan) . "; text-align:center;'><strong>$podium</strong></div>";
+            $colStart += $colspan;
         }
         // Time slots
         for ($hour = $startHour; $hour <= $endHour; $hour++) {
             for ($minute = 0; $minute < 60; $minute += $timeInterval) {
                 $timeLabel = sprintf("%02d:%02d", $hour, $minute);
                 $currentTime = strtotime($timeLabel);
-                $output .= "<div class='grid-item time-slot'>$timeLabel</div>";
+                $output .= "<div class='grid-item time-slot' style='grid-column: 1 / 2;'>$timeLabel</div>";
                 foreach ($podiums as $podium) {
                     $subcols = $maxSubcolumns[$podium] ?: 1;
                     $found = false;
