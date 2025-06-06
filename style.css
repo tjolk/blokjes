@@ -65,7 +65,7 @@ body {
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
-    z-index: 9998 !important; /* Just below header */
+    z-index: 10001 !important; /* Higher than all acts and header, but below .sticky-tijd */
     background: #111;
 }
 
