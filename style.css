@@ -94,6 +94,7 @@ h2 {
     background: white !important;
     color: black !important;
     border: 1px solid black;
+    font-size: 0.7em;
 }
 @media (max-width: 768px) {
     .grid-container {
