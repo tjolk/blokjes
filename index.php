@@ -142,7 +142,9 @@ function generateBlokjesContent($data) {
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest"></head>
+    <link rel="manifest" href="/site.webmanifest">
+    <meta http-equiv="refresh" content="300">
+</head>
 <body>
 
 <h1>Blokkenschema Kaderock</h1>
@@ -153,6 +155,11 @@ echo generateBlokjesContent($data);
 
 </body>
 <script>
+// Auto-refresh every 5 minutes for PWA (if not already handled by meta)
+setTimeout(function() {
+    window.location.reload();
+}, 300000); // 300,000 ms = 5 minutes
+
 // Scroll to the current time slot for the current day only
 window.addEventListener('DOMContentLoaded', function() {
     function pad(n) { return n < 10 ? '0' + n : n; }
