@@ -110,8 +110,7 @@ h2 {
         display: block;
     }
     .broeikas-col {
-        min-width: 0 !important;
-        max-width: 100% !important;
+        min-width: 150% !important;
     }
     .time-slot {
         min-width: 40px;
