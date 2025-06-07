@@ -4,6 +4,9 @@ body {
     font-family: Arial, sans-serif;
 }
 .grid-container {
+    position: sticky;
+    top: calc(var(--header-height, 0px) + 48px); /* stick below header and h2 */
+    z-index: 2000;
     display: grid;
     gap: 0;
     border: 1px solid white;
