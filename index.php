@@ -147,7 +147,7 @@ function generateBlokjesContent($data) {
 </head>
 <body>
 
-<h1>Blokkenschema Kaderock</h1>
+<img src="header_2025-01.svg" alt="Kaderock Header" style="width:100%;max-width:900px;display:block;margin:32px auto 16px auto;">
 
 <?php
 echo generateBlokjesContent($data);
