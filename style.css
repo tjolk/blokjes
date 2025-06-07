@@ -94,6 +94,7 @@ h2 {
     background: black;
     z-index: 1000;
 }
+.active-slot.current-time-slot,
 .current-time-slot {
     background: yellow !important;
     color: black !important;
