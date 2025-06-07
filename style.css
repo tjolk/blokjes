@@ -79,6 +79,17 @@ h2 {
     color: black !important;
     font-weight: bold;
 }
+.broeikas-header {
+    background: #232a1c !important;
+    color: #ffe066 !important;
+    border-left: 2px solid #ffe066;
+    border-right: 2px solid #ffe066;
+}
+.broeikas-col {
+    background: #181e13 !important;
+    border-left: 1px solid #232a1c;
+    border-right: 1px solid #232a1c;
+}
 @media (max-width: 768px) {
     .grid-container {
         overflow-x: auto;

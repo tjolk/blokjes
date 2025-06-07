@@ -83,7 +83,10 @@ function generateBlokjesContent($data) {
         $colStart = 2;
         foreach ($podiums as $podium) {
             $colspan = $maxSubcolumns[$podium] ?: 1;
-            $output .= "<div class='grid-item sticky-header' style='grid-column: $colStart / " . ($colStart + $colspan) . "; text-align:center;'><strong>$podium</strong></div>";
+            $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikast');
+            $headerClass = 'grid-item sticky-header';
+            if ($isBroeikast) $headerClass .= ' broeikas-header';
+            $output .= "<div class='$headerClass' style='grid-column: $colStart / " . ($colStart + $colspan) . "; text-align:center;'><strong>$podium</strong></div>";
             $colStart += $colspan;
         }
         // Time slots
@@ -97,6 +100,7 @@ function generateBlokjesContent($data) {
                 $output .= "<div class='$timeSlotClass' style='grid-column: 1 / 2;'>$timeLabel</div>";
                 foreach ($podiums as $podium) {
                     $subcols = $maxSubcolumns[$podium] ?: 1;
+                    $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikast');
                     for ($subcol = 0; $subcol < $subcols; $subcol++) {
                         $found = false;
                         foreach ($podiumActs[$podium] as $actIdx => $act) {
@@ -106,7 +110,10 @@ function generateBlokjesContent($data) {
                                 $actName = rtrim($actName);
                                 $rowspan = ($act['end'] - $act['start']) / ($timeInterval * 60);
                                 if ($rowspan < 1) $rowspan = 1;
-                                $output .= "<div class='grid-item active-slot' style='grid-row: span $rowspan;'><span>" . htmlspecialchars($actName) . "</span></div>";
+                                $cellClass = 'grid-item active-slot';
+                                if ($isCurrentSlot) $cellClass .= ' current-time-slot';
+                                if ($isBroeikast) $cellClass .= ' broeikas-col';
+                                $output .= "<div class='$cellClass' style='grid-row: span $rowspan;'><span>" . htmlspecialchars($actName) . "</span></div>";
                                 $podiumActs[$podium][$actIdx]['rendered'] = true;
                                 $found = true;
                                 break;
@@ -121,7 +128,9 @@ function generateBlokjesContent($data) {
                                 }
                             }
                             if (!$spanned) {
-                                $output .= "<div class='grid-item'></div>";
+                                $cellClass = 'grid-item';
+                                if ($isBroeikast) $cellClass .= ' broeikas-col';
+                                $output .= "<div class='$cellClass'></div>";
                             }
                         }
                     }
@@ -140,9 +149,9 @@ function generateBlokjesContent($data) {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Blokkenschema Kaderock</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
     <meta http-equiv="refresh" content="300">
 </head>
 <body>
