@@ -73,7 +73,7 @@ function generateBlokjesContent($data) {
             $colCount = $maxSubcolumns[$podium] ?: 1;
             $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikas');
             for ($i = 0; $i < $colCount; $i++) {
-                $gridCols[] = $isBroeikast ? '0.8fr' : '1fr';
+                $gridCols[] = $isBroeikast ? '0.6fr' : '1fr';
             }
             $totalCols += $colCount;
         }
