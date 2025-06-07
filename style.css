@@ -61,6 +61,11 @@ h2 {
 }
 .tijd-header {
     z-index: 2000 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    /* Match header cell vertical alignment */
 }
 /* Sticky header row for all header cells in the first row, up to 10 columns */
 .cols-2 > .grid-item:nth-child(-n+2),
@@ -95,6 +100,10 @@ h2 {
     top: 0;
     background: black;
     z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 .active-slot.current-time-slot,
 .current-time-slot {
