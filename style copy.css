@@ -5,36 +5,54 @@ body {
 }
 .grid-container {
     display: grid;
-    /* grid-template-columns is set inline by PHP */
     gap: 0;
     border: 1px solid white;
-    margin-bottom: 40px;
+    margin-bottom: 0;
+    margin-top: 0;
     overflow: auto;
-    max-height: 80vh; /* Added max-height for sticky header */
+    max-height: 90vh;
+    background: transparent;
+}
+h2 {
+    margin-top: 32px;
+    margin-bottom: 8px;
 }
 .grid-item {
-    background-color: black;
     color: white;
     text-align: center;
     padding: 10px;
-    border: 0px solid white;
+    border: 0;
+    background: transparent;
 }
 .active-slot {
-    background-color: white;
+    background: white;
     color: black;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
 }
-.time-slot {
-    font-weight: bold;
+.active-slot span {
+    position: sticky;
+    top: 40px; /* Height of the sticky header row, adjust as needed */
+    width: 100%;
+    background: white;
     text-align: center;
 }
-.grid-item.time-slot,
-.tijd-header {
+.time-slot, .tijd-header {
     min-width: 60px;
     max-width: 80px;
     width: 100%;
     font-size: 13px;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding: 0 4px;
+    background: black;
+    font-weight: bold;
+    text-align: center;
+}
+.tijd-header {
+    z-index: 2000 !important;
 }
 /* Sticky header row for all header cells in the first row, up to 10 columns */
 .cols-2 > .grid-item:nth-child(-n+2),
@@ -48,68 +66,63 @@ body {
 .cols-10 > .grid-item:nth-child(-n+10) {
     position: sticky;
     top: 0;
-    z-index: 20; /* Increased z-index for sticky headers */
-    background: #111;
+    background: black;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.5);
 }
-
 .sticky-tijd {
     position: sticky;
     left: 0;
     top: 0;
-    z-index: 30;
-    background: #111;
+    background: black;
+    z-index: 999;
 }
-
-/* Ensure time column cells below header also stick */
 .grid-item.time-slot:not(.tijd-header) {
     position: sticky;
     left: 0;
-    z-index: 15;
-    background: #111;
+    background: black;
+    z-index: 500;
 }
-
 .sticky-header {
     position: sticky;
     top: 0;
-    z-index: 20;
-    background: #111;
+    background: black;
+    z-index: 1000;
 }
-
 .current-time-slot {
     background: yellow !important;
     color: black !important;
     font-weight: bold;
-    z-index: 50;
 }
-
 @media (max-width: 768px) {
     .grid-container {
-        display: block;
         overflow-x: auto;
-        white-space: nowrap;
+        white-space: normal;
     }
     .grid-item {
-        display: inline-block;
-        min-width: 120px;
+        min-width: 100px;
         white-space: normal;
-        vertical-align: top;
-    }
-    .time-slot {
         display: block;
-        font-weight: bold;
-        background-color: #222;
-        color: #fff;
-        padding: 5px;
     }
-    h1, h2 {
-        text-align: center;
-    }
-    .grid-item.time-slot,
-    .tijd-header {
+    .time-slot, .tijd-header {
         min-width: 40px;
         max-width: 60px;
         font-size: 11px;
-        padding-left: 2px;
-        padding-right: 2px;
+        padding: 0 2px;
+        background: black;
     }
+    .tijd-header {
+        z-index: 2000 !important;
+    }
+    .sticky-header {
+        z-index: 1000;
+    }
+    .grid-item.time-slot:not(.tijd-header) {
+        z-index: 500;
+    }
+    .sticky-tijd {
+        z-index: 999;
+    }
+}
+img[src="header_2025-01.svg"] {
+    margin-top: 0 !important;
 }
