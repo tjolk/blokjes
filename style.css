@@ -124,7 +124,7 @@ h2 {
         height: 100%;
     }
     .tijd-header, .sticky-header {
-        min-width: 40px;
+        min-width: 115%;
         max-width: 100%;
         font-size: 0.9em;
         padding: 0.3em 0px;
