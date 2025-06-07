@@ -66,14 +66,14 @@ function generateBlokjesContent($data) {
             $podiumActs[$podium] = $acts;
             $maxSubcolumns[$podium] = count($columns);
         }
-        // Build grid-template-columns
+        // Build grid-template-columns with smaller broeikas columns
         $gridCols = ['50px'];
         $totalCols = 1;
         foreach ($podiums as $podium) {
             $colCount = $maxSubcolumns[$podium] ?: 1;
             $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikas');
             for ($i = 0; $i < $colCount; $i++) {
-                $gridCols[] = $isBroeikast ? '0.7fr' : '1fr';
+                $gridCols[] = $isBroeikast ? '0.8fr' : '1fr';
             }
             $totalCols += $colCount;
         }
