@@ -5,7 +5,7 @@ body {
 }
 .grid-container {
     position: sticky;
-    top: calc(var(--header-height, 0px) + 48px); /* stick below header and h2 */
+    top: calc(var(--header-height, 0px) + var(--h2-height, 0px));
     z-index: 2000;
     display: grid;
     gap: 0;
@@ -13,7 +13,7 @@ body {
     margin-bottom: 0;
     margin-top: 0;
     overflow: auto;
-    max-height: calc(100vh - var(--header-height, 0px) - 48px); /* 48px is approx. h2 height incl. margin/padding */
+    max-height: calc(100vh - var(--header-height, 0px) - var(--h2-height, 0px));
     background: black;
 }
 h2 {
@@ -146,6 +146,7 @@ img[src="header_2025-01.svg"] {
 
 :root {
     --header-height: 0px;
+    --h2-height: 0px;
 }
 
-/* JS to update --header-height dynamically */
+/* JS to update --header-height and --h2-height dynamically */
