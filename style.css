@@ -7,10 +7,15 @@ body {
     display: grid;
     gap: 0;
     border: 1px solid white;
-    margin-bottom: 40px;
+    margin-bottom: 0;
+    margin-top: 0;
     overflow: auto;
-    max-height: 80vh;
+    max-height: 90vh;
     background: transparent;
+}
+h2 {
+    margin-top: 32px;
+    margin-bottom: 8px;
 }
 .grid-item {
     color: white;
