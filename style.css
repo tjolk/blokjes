@@ -53,8 +53,8 @@ h2 {
     min-width: 60px;
     max-width: 80px;
     width: 100%;
-    font-size: 13px;
-    padding: 0 4px;
+    font-size: 0.7em;
+    padding: 0;
     background: black;
     font-weight: bold;
     text-align: center;
@@ -67,8 +67,8 @@ h2 {
     height: 100%;
     background: black;
     font-weight: bold;
-    font-size: 13px;
-    padding: 0 4px;
+    font-size: 0.9em;
+    padding: 0.3em 0px;
     text-align: center;
     position: sticky;
     top: 0;
@@ -92,7 +92,7 @@ h2 {
     .time-slot {
         min-width: 40px;
         max-width: 60px;
-        font-size: 11px;
+        font-size: 0.7em;
         padding: 0 0px;
         background: black;
         display: flex;
@@ -103,8 +103,8 @@ h2 {
     .tijd-header, .sticky-header {
         min-width: 40px;
         max-width: 100%;
-        font-size: 13px;
-        padding: 0 0px;
+        font-size: 0.9em;
+        padding: 0.3em 0px;
         background: black;
         display: flex;
         align-items: center;
