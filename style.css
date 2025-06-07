@@ -16,6 +16,12 @@ body {
 h2 {
     margin-top: 32px;
     margin-bottom: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 2500;
+    background: black;
+    color: white;
+    padding: 8px 0 4px 0;
 }
 .grid-item {
     color: white;
