@@ -151,14 +151,34 @@ echo generateBlokjesContent($data);
 
 </body>
 <script>
-// Scroll to the current time slot on page load
+// Scroll to the current time slot for the current day only
 window.addEventListener('DOMContentLoaded', function() {
     function pad(n) { return n < 10 ? '0' + n : n; }
+    // Build Dutch month names for matching
+    const months = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
     const now = new Date();
+    const day = now.getDate();
+    const month = months[now.getMonth()];
+    // Find the <h2> for today (e.g., 'Zaterdag 7 juni ...')
+    const h2s = document.querySelectorAll('h2');
+    let todayHeader = null;
+    for (let h2 of h2s) {
+        if (h2.textContent.match(new RegExp('\\b' + day + '\\b.*' + month, 'i'))) {
+            todayHeader = h2;
+            break;
+        }
+    }
+    if (!todayHeader) return; // No schedule for today
+    // Find the next .grid-container after the header
+    let grid = todayHeader.nextElementSibling;
+    while (grid && !grid.classList.contains('grid-container')) {
+        grid = grid.nextElementSibling;
+    }
+    if (!grid) return;
+    // Now scroll to the current time slot in this grid only
     const hour = pad(now.getHours());
     const minute = pad(Math.floor(now.getMinutes() / 5) * 5);
-    const selector = `.grid-item.time-slot`;
-    const slots = document.querySelectorAll(selector);
+    const slots = grid.querySelectorAll('.grid-item.time-slot');
     let found = false;
     for (let slot of slots) {
         if (slot.textContent.trim() === `${hour}:${minute}`) {
