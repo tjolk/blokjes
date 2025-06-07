@@ -90,8 +90,8 @@ h2 {
     min-width: 0 !important;
     max-width: 100% !important;
     background: #999999 !important;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #fff;
+    border-left: 0px solid #fff;
+    border-right: 0px solid #fff;
 }
 .broeikas-col.active-slot {
     background: white !important;
@@ -124,7 +124,7 @@ h2 {
         height: 100%;
     }
     .tijd-header, .sticky-header {
-        min-width: 115%;
+        min-width: 120%;
         max-width: 100%;
         font-size: 0.9em;
         padding: 0.3em 0px;
