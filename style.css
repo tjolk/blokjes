@@ -123,3 +123,6 @@ h2 {
         z-index: 999;
     }
 }
+img[src="header_2025-01.svg"] {
+    margin-top: 0 !important;
+}
