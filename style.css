@@ -115,12 +115,13 @@ h2 {
     }
     .tijd-header, .sticky-header {
         min-width: 40px;
-        max-width: 60px;
-        font-size: 11px;
+        max-width: 100%;
+        font-size: 13px;
         padding: 0 0px;
         background: black;
         display: flex;
         align-items: center;
+        text-align: center;
         justify-content: center;
         height: 100%;
     }
