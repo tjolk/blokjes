@@ -87,6 +87,8 @@ h2 {
     border-right: 2px solid #fff;
 }
 .broeikas-col {
+    min-width: 0 !important;
+    max-width: 100% !important;
     background: #999999 !important;
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
