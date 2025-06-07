@@ -28,7 +28,7 @@ h2 {
 .grid-item {
     color: white;
     text-align: center;
-    padding: 10px;
+    padding: 5px;
     border: 0;
     background: transparent;
 }
@@ -65,45 +65,26 @@ h2 {
     align-items: center;
     justify-content: center;
     height: 100%;
-    /* Match header cell vertical alignment */
-}
-/* Sticky header row for all header cells in the first row, up to 10 columns */
-.cols-2 > .grid-item:nth-child(-n+2),
-.cols-3 > .grid-item:nth-child(-n+3),
-.cols-4 > .grid-item:nth-child(-n+4),
-.cols-5 > .grid-item:nth-child(-n+5),
-.cols-6 > .grid-item:nth-child(-n+6),
-.cols-7 > .grid-item:nth-child(-n+7),
-.cols-8 > .grid-item:nth-child(-n+8),
-.cols-9 > .grid-item:nth-child(-n+9),
-.cols-10 > .grid-item:nth-child(-n+10) {
-    position: sticky;
-    top: 0;
     background: black;
-    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.5);
-}
-.sticky-tijd {
-    position: sticky;
-    left: 0;
-    top: 0;
-    background: black;
-    z-index: 999;
-}
-.grid-item.time-slot:not(.tijd-header) {
-    position: sticky;
-    left: 0;
-    background: black;
-    z-index: 500;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 0 4px;
+    text-align: center;
+    /* Remove min-width/max-width/width so it matches .sticky-header */
 }
 .sticky-header {
-    position: sticky;
-    top: 0;
-    background: black;
-    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
+    background: black;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 0 4px;
+    text-align: center;
+    z-index: 1000;
+    position: sticky;
+    top: 0;
 }
 .active-slot.current-time-slot,
 .current-time-slot {
@@ -125,11 +106,23 @@ h2 {
         min-width: 40px;
         max-width: 60px;
         font-size: 11px;
-        padding: 0 2px;
+        padding: 0 0px;
         background: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
     }
-    .tijd-header {
-        z-index: 2000 !important;
+    .tijd-header, .sticky-header {
+        min-width: 40px;
+        max-width: 60px;
+        font-size: 11px;
+        padding: 0 0px;
+        background: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
     }
     .sticky-header {
         z-index: 1000;
