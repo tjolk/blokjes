@@ -59,7 +59,7 @@ h2 {
     font-weight: bold;
     text-align: center;
 }
-.tijd-header {
+.sticky-header, .tijd-header {
     z-index: 2000 !important;
     display: flex;
     align-items: center;
@@ -70,19 +70,6 @@ h2 {
     font-size: 13px;
     padding: 0 4px;
     text-align: center;
-    /* Remove min-width/max-width/width so it matches .sticky-header */
-}
-.sticky-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    background: black;
-    font-weight: bold;
-    font-size: 13px;
-    padding: 0 4px;
-    text-align: center;
-    z-index: 1000;
     position: sticky;
     top: 0;
 }
