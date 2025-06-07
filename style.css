@@ -49,7 +49,7 @@ h2 {
     background: white;
     text-align: center;
 }
-.time-slot, .tijd-header {
+.time-slot {
     min-width: 60px;
     max-width: 80px;
     width: 100%;
@@ -102,7 +102,7 @@ h2 {
         white-space: normal;
         display: block;
     }
-    .time-slot, .tijd-header {
+    .time-slot {
         min-width: 40px;
         max-width: 60px;
         font-size: 11px;
@@ -151,5 +151,3 @@ img[src="header_2025-01.svg"] {
     --header-height: 0px;
     --h2-height: 0px;
 }
-
-/* JS to update --header-height and --h2-height dynamically */
