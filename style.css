@@ -17,7 +17,7 @@ h2 {
     margin-top: 32px;
     margin-bottom: 8px;
     position: sticky;
-    top: 0;
+    top: 70px; /* Height of the sticky header image */
     z-index: 2500;
     background: black;
     color: white;
