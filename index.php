@@ -71,7 +71,7 @@ function generateBlokjesContent($data) {
         $totalCols = 1;
         foreach ($podiums as $podium) {
             $colCount = $maxSubcolumns[$podium] ?: 1;
-            $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikast');
+            $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikas');
             for ($i = 0; $i < $colCount; $i++) {
                 $gridCols[] = $isBroeikast ? '0.7fr' : '1fr';
             }
@@ -83,7 +83,7 @@ function generateBlokjesContent($data) {
         $colStart = 2;
         foreach ($podiums as $podium) {
             $colspan = $maxSubcolumns[$podium] ?: 1;
-            $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikast');
+            $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikas'); // fix typo: 'de broeikast' -> 'de broeikas'
             $headerClass = 'grid-item sticky-header';
             if ($isBroeikast) $headerClass .= ' broeikas-header';
             $output .= "<div class='$headerClass' style='grid-column: $colStart / " . ($colStart + $colspan) . "; text-align:center;'><strong>$podium</strong></div>";
@@ -100,7 +100,7 @@ function generateBlokjesContent($data) {
                 $output .= "<div class='$timeSlotClass' style='grid-column: 1 / 2;'>$timeLabel</div>";
                 foreach ($podiums as $podium) {
                     $subcols = $maxSubcolumns[$podium] ?: 1;
-                    $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikast');
+                    $isBroeikast = (mb_strtolower(trim($podium)) === 'de broeikas'); // fix typo here too
                     for ($subcol = 0; $subcol < $subcols; $subcol++) {
                         $found = false;
                         foreach ($podiumActs[$podium] as $actIdx => $act) {
