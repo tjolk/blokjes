@@ -9,6 +9,7 @@ body {
     border: 1px solid white;
     margin-bottom: 40px;
     overflow: auto;
+    max-height: 80vh;
     background: transparent;
 }
 .grid-item {
