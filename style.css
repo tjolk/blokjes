@@ -15,7 +15,7 @@ body {
 }
 h2 {
     position: sticky;
-    top: 100px; /* Match the header image height above */
+    top: var(--header-height, 0px);
     z-index: 2500;
     background: black;
     color: white;
@@ -138,5 +138,11 @@ img[src="header_2025-01.svg"] {
     z-index: 3000;
     background: black;
     display: block;
-    height: 100px;
+    height: auto;
 }
+
+:root {
+    --header-height: 0px;
+}
+
+/* JS to update --header-height dynamically */

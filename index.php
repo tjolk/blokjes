@@ -155,6 +155,19 @@ echo generateBlokjesContent($data);
 
 </body>
 <script>
+// Dynamically set --header-height CSS variable for sticky h2
+window.addEventListener('DOMContentLoaded', function() {
+    function setHeaderHeightVar() {
+        var headerImg = document.querySelector('img[src="header_2025-01.svg"]');
+        if (headerImg) {
+            var height = headerImg.getBoundingClientRect().height;
+            document.documentElement.style.setProperty('--header-height', height + 'px');
+        }
+    }
+    setHeaderHeightVar();
+    window.addEventListener('resize', setHeaderHeightVar);
+});
+
 // Auto-refresh every 5 minutes for PWA (if not already handled by meta)
 setTimeout(function() {
     window.location.reload();
